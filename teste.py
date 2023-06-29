@@ -16,3 +16,4 @@ resultados = pd.read_csv('epl_results_2022-23.csv')
 lista_colunas = list(resultados.columns)
 print("Colunas : ",lista_colunas)
 #print(resultados.to_string())
+
