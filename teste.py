@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 """
 Trabalho 2
 ->Encontrar um arquivo CSV base
@@ -77,7 +76,6 @@ plt.barh(equipes2,m_cartao, color="yellow")
 plt.ylabel("Equipes")
 plt.xlabel("Cartões Amarelos")
 plt.show()
-=======
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -141,4 +139,3 @@ plt.barh(equipes,m_cartao, color="yellow")
 plt.ylabel("Equipes")
 plt.xlabel("Média de Cartões Amarelos")
 plt.show()
->>>>>>> 6536bcabfd4bce67e1f84395e71571d165301b94
