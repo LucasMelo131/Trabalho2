@@ -9,13 +9,13 @@ Trabalho 2
 Alunos: Gabriel Moura, Lucas Melo
 """
 import pandas as pd
-import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt
 
 #leitura do csv
 ARQ = "epl_results_2022-23.csv"
 dfpl = pd.read_csv(ARQ)
 lista_colunas = list(dfpl.columns)
-dfpl.head(400)
+print(dfpl.head(400))
 
 #exibição das colunas
 print("colunas: ",lista_colunas)
@@ -34,13 +34,13 @@ cartoes_amarelos_por_equipe.columns = ['Equipe', 'Cartões Amarelos Casa']
 cartoes_amarelos_por_equipe_away = dfpl.groupby('AwayTeam')['AY'].sum().reset_index()
 cartoes_amarelos_por_equipe_away.columns = ['Equipe', 'Cartões Amarelos Fora']
 
-# Juntar os DataFrames das médias de faltas e cartões amarelos por equipe (apenas em casa)
+# Juntar os dataframes das médias de faltas e cartões amarelos por equipe (apenas em casa)
 resultadohome = pd.merge(faltas_por_equipe, cartoes_amarelos_por_equipe, on='Equipe')
 
-#Juntar os DataFrames das médias de faltas e cartões amarelos por equipe (apenas fora de casa)
+# Juntar os dataframes das médias de faltas e cartões amarelos por equipe (apenas fora de casa)
 resultadoaway = pd.merge(faltas_por_equipe_away, cartoes_amarelos_por_equipe_away, on='Equipe')
 
-# juntar os 2 dataframes com as estatísticas em casa e fora por equipe
+# Juntar os 2 dataframes com as estatísticas em casa e fora por equipe
 df_final = pd.merge(resultadohome, resultadoaway, on='Equipe')
 
 # cálculo e criação de colunas com a média de faltas e média de cartões amarelos por equipe
@@ -57,21 +57,28 @@ df_final = df_final.drop(['Faltas Casa','Faltas Fora','Cartões Amarelos Casa'
 
 df_ord_faltas = df_final.sort_values(by='Média Falta')
 df_ord_cartoes = df_final.sort_values(by='Cartão Amarelo')
-print(df_ord_cartoes.head(20))
+#print(df_final.head(20))
 
 equipes = df_ord_faltas["Equipe"].tolist()
 m_falta = df_ord_faltas["Média Falta"].tolist()
-equipes2 = df_ord_cartoes["Equipe"].tolist()
-m_cartao = df_ord_cartoes["Cartão Amarelo"].tolist()
+m_cartao = df_ord_faltas["Cartão Amarelo"].tolist()
 
-fig = plt.subplots(figsize=(12, 8))
+fig, axes = plt.subplots(figsize=(16, 9), nrows=2, ncols=1)
 
-plt.subplot(2,1,1)
-plt.barh(equipes,m_falta, color="green")
-plt.ylabel("Equipes")
-plt.xlabel("Média de Faltas")
-plt.subplot(2,1,2)
-plt.barh(equipes2,m_cartao, color="yellow")
-plt.ylabel("Equipes")
-plt.xlabel("Cartões Amarelos")
+axes[0].barh(equipes, m_falta, color="green")
+axes[0].set_ylabel("Equipes")
+axes[0].set_xlabel("Média de Faltas")
+
+axes[1].barh(equipes, m_cartao, color="yellow")
+axes[1].set_ylabel("Equipes")
+axes[1].set_xlabel("Cartões Amarelos")
+
+# Adicionar valores do eixo x como índices ao lado de cada barra
+for ax in axes:
+    for i, valor in enumerate(ax.patches):
+        ax.text(valor.get_width(), valor.get_y() + valor.get_height() / 2,
+                f"{round(valor.get_width(), 2)}",
+                ha='left', va='center')
+
+plt.tight_layout()
 plt.show()
