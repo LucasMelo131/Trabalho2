@@ -1,4 +1,4 @@
-#Análise entre média de faltas cometidas por jogo e número de cartões recebidos na temporada
+# Análise entre média de faltas cometidas por jogo e número de cartões recebidos na temporada
 
 A análise consiste em determinar o seguinte gráfico:
 ![](graficopl.png)
